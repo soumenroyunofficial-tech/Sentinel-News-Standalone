@@ -4,6 +4,7 @@ import { XMLParser, XMLValidator } from "fast-xml-parser";
 import { NEWS_SOURCES, type BriefResponse, type NewsArticle, type NewsResponse, type NewsSourceId } from "../shared/news";
 
 const SOURCE_BY_ID = new Map(NEWS_SOURCES.map(source => [source.id, source]));
+
 const SOURCE_NAMES: Record<NewsSourceId, RegExp> = {
   ap: /^(associated press|ap news|ap)$/i,
   bbc: /\bbbc\b/i,
@@ -12,7 +13,16 @@ const SOURCE_NAMES: Record<NewsSourceId, RegExp> = {
   npr: /^npr\b/i,
   aljazeera: /al.?jazeera/i,
   dw: /deutsche welle|\bdw\b/i,
+  thehindu: /the hindu/i,
+  ndtv: /\bndtv\b/i,
+  toi: /times of india/i,
+  indiatoday: /india today/i,
+  sky: /sky news/i,
+  euronews: /euronews/i,
+  cbs: /cbs news/i,
+  nytimes: /new york times|nytimes/i,
 };
+
 const LANGUAGES: Record<string, { hl: string; gl: string; ceid: string }> = {
   en: { hl: "en-US", gl: "US", ceid: "US:en" },
   es: { hl: "es-419", gl: "US", ceid: "US:es-419" },
