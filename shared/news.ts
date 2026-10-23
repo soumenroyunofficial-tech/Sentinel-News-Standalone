@@ -55,7 +55,3 @@ export interface NewsResponse {
   sourceErrors: string[];
 }
 
-export interface BriefResponse {
-  text: string;
-  citations: Array<Pick<NewsArticle, "id" | "title" | "source" | "url"> & { ref: string }>;
-}
