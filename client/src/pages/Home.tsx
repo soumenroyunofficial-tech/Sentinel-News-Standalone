@@ -162,9 +162,6 @@ export default function Home() {
 
           setData(result);
           setLoadError("");
-          setBriefOutput(null);
-          setBriefEvidence([]);
-          setBriefError("");
         })
         .catch(error => {
           if (sequence === requestId.current) {
@@ -1143,7 +1140,7 @@ export default function Home() {
           )}
 
           <footer className="page-footer">
-            <span>SENTINEL // PUBLIC NEWS ANALYSIS</span>
+            <span>© 2026 Soumen Roy · SENTINEL // PUBLIC NEWS ANALYSIS</span>
             <span>NOT CLASSIFIED · VERIFY WITH ORIGINAL REPORTING</span>
           </footer>
         </main>
