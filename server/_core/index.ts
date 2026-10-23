@@ -2,7 +2,7 @@ import "dotenv/config";
 import express from "express";
 import { createServer } from "http";
 import { serveStatic, setupVite } from "./vite";
-import { createBrief, getNews } from "../news";
+import { getNews } from "../news";
 
 async function startServer() {
   const app = express();
@@ -12,7 +12,6 @@ async function startServer() {
   app.use(express.urlencoded({ limit: "10kb", extended: true }));
   app.get("/api/health", (_req, res) => res.json({ status: "ok" }));
   app.get("/api/news", getNews);
-  app.post("/api/brief", createBrief);
 
   if (process.env.NODE_ENV === "development") await setupVite(app, server);
   else serveStatic(app);
