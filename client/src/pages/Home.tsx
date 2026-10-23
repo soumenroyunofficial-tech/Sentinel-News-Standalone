@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState, type FormEvent } from "react";
+import { useEffect, useMemo, useState } from "react";
 import {
   Activity, Bookmark, BookmarkCheck, Check, ChevronDown, ChevronRight, Clock3,
   Compass, Database, ExternalLink, Filter, Globe2, Layers3, ListFilter, LoaderCircle,
@@ -56,7 +56,6 @@ export default function Home() {
   const [drawerArticle, setDrawerArticle] = useState<NewsArticle | null>(null);
   const [drawerCollectedAt, setDrawerCollectedAt] = useState<string | null>(null);
   const [clock, setClock] = useState(new Date());
-  const searchRef = useRef<HTMLInputElement>(null);
   const requestId = useRef(0);
 
   const articles = data?.articles ?? [];
@@ -176,27 +175,6 @@ export default function Home() {
 
     return () => window.clearInterval(timer);
   }, []);
-
-  useEffect(() => {
-    const handleShortcut = (event: KeyboardEvent) => {
-      if (
-        (event.metaKey || event.ctrlKey) &&
-        event.key.toLowerCase() === "k"
-      ) {
-        event.preventDefault();
-        searchRef.current?.focus();
-      }
-    };
-
-    window.addEventListener("keydown", handleShortcut);
-    return () => window.removeEventListener("keydown", handleShortcut);
-  }, []);
-
-  function submitSearch(event: FormEvent) {
-    event.preventDefault();
-    setView("search");
-    void runSearch();
-  }
 
   function toggleSource(id: string) {
     setSelectedSources(current => {
@@ -484,43 +462,10 @@ export default function Home() {
             </div>
           </div>
 
-          <form className="search-command" onSubmit={submitSearch}>
-            <Search size={19} className="search-icon" />
-
-            <input
-              ref={searchRef}
-              value={query}
-              onChange={event => setQuery(event.target.value)}
-              placeholder="Search a keyword, name, place or headline phrase…"
-              aria-label="Search selected publishers by keyword or phrase"
-            />
-
-            {query && (
-              <button
-                type="button"
-                className="clear-query"
-                onClick={() => setQuery("")}
-                aria-label="Clear search"
-              >
-                <X size={15} />
-              </button>
-            )}
-
-            <span className="search-divider" />
-
-            <span className="search-scope">
-              <Globe2 size={13} /> {selectedSources.length} SOURCES
-            </span>
-
-            <button
-              className="search-submit"
-              type="submit"
-              aria-label="Search selected publishers"
-            >
-              <span>Search</span>
-              <Search size={15} />
-            </button>
-          </form>
+          <div className="collection-intro">
+            <Newspaper size={18} />
+            <span>Latest reporting from the selected public sources</span>
+          </div>
 
           <div className="filter-row">
             <div className="filter-source-wrap">
