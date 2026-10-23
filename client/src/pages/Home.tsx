@@ -1113,17 +1113,17 @@ export default function Home() {
 
                 <aside className="right-column">
                   <BriefPanel
-                    articles={analystEvidence}
-                    busy={briefBusy}
-                    output={briefOutput}
-                    error={briefError}
-                    onBrief={() =>
-                      void generateBrief("brief", articles.slice(0, 5))
-                    }
-                    onAsk={question =>
-                      void generateBrief("ask", analystEvidence, question)
-                    }
-                  />
+                  articles={analystEvidence}
+                  busy={briefBusy}
+                  output={briefOutput}
+                  error={briefError}
+                  onBrief={() =>
+              void generateBrief("brief", articles.slice(0, 8))
+                }
+              onAsk={question =>
+          void generateBrief("ask", analystEvidence, question)
+            }
+            />
 
                   <section className="panel emerging-panel">
                     <div className="panel-heading">
