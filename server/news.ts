@@ -21,6 +21,20 @@ const SOURCE_NAMES: Record<NewsSourceId, RegExp> = {
   euronews: /euronews/i,
   cbs: /cbs news/i,
   nytimes: /new york times|nytimes/i,
+  indianexpress: /indian express/i,
+  hindustantimes: /hindustan times/i,
+  mint: /^mint$/i,
+  businessstandard: /business standard/i,
+  economictimes: /economic times/i,
+  news18: /news18/i,
+  firstpost: /firstpost/i,
+  theprint: /theprint/i,
+  scroll: /scroll\.in|scroll/i,
+  thewire: /the wire/i,
+  abplive: /abp live/i,
+  deccanherald: /deccan herald/i,
+  newindianexpress: /new indian express/i,
+  telegraphindia: /the telegraph|telegraph india/i,
 };
 
 const LANGUAGES: Record<string, { hl: string; gl: string; ceid: string }> = {
