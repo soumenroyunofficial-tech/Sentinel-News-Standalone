@@ -112,7 +112,9 @@ export default function Home() {
   }, [articles]);
 
   const savedIds = useMemo(() => new Set(saved.map(item => item.id)), [saved]);
-  const analystEvidence = briefEvidence.length ? briefEvidence : articles.slice(0, 5);
+  const analystEvidence = briefEvidence.length
+  ? briefEvidence
+  : articles.slice(0, 8);
 
   const currentParams = (): SearchParams => ({
     query,
@@ -289,30 +291,30 @@ export default function Home() {
     setInvestigations(loadInvestigations());
   }
 
-  async function generateBrief(
-    kind: "brief" | "ask",
-    evidence = articles.slice(0, 5),
-    question = ""
-  ) {
-    if (!evidence.length) return;
+ async function generateBrief(
+  kind: "brief" | "ask",
+  evidence = articles.slice(0, 8),
+  question = ""
+) {
+  if (!evidence.length) return;
 
-    setBriefBusy(true);
-    setBriefError("");
-    setBriefOutput(null);
-    setBriefEvidence(evidence);
+  setBriefBusy(true);
+  setBriefError("");
+  setBriefOutput(null);
+  setBriefEvidence(evidence);
 
-    try {
-      setBriefOutput(await requestBrief(kind, evidence, question));
-    } catch (error) {
-      setBriefError(
-        error instanceof Error
-          ? error.message
-          : "The AI analyst is temporarily unavailable."
-      );
-    } finally {
-      setBriefBusy(false);
-    }
+  try {
+    setBriefOutput(await requestBrief(kind, evidence, question));
+  } catch (error) {
+    setBriefError(
+      error instanceof Error
+        ? error.message
+        : "The AI analyst is temporarily unavailable."
+    );
+  } finally {
+    setBriefBusy(false);
   }
+}
 
   const title =
     view === "search"
