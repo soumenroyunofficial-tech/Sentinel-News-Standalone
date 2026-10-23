@@ -337,19 +337,6 @@ export default function Home() {
             <ChevronRight size={13} />
           </button>
 
-          <button
-            aria-label="Search selected sources"
-            aria-current={view === "search" ? "page" : undefined}
-            className={view === "search" ? "rail-link active" : "rail-link"}
-            onClick={() => {
-              setView("search");
-              window.setTimeout(() => searchRef.current?.focus(), 0);
-            }}
-          >
-            <Search size={16} />
-            <span>Deep search</span>
-            <span className="nav-shortcut">⌘ K</span>
-          </button>
 
           <button
             aria-label="Saved workspace"
