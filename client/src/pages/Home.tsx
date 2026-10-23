@@ -1,17 +1,16 @@
 import { useEffect, useMemo, useRef, useState, type FormEvent } from "react";
 import {
-  Activity, Bookmark, BookmarkCheck, BrainCircuit, Check, ChevronDown, ChevronRight, Clock3,
+  Activity, Bookmark, BookmarkCheck, Check, ChevronDown, ChevronRight, Clock3,
   Compass, Database, ExternalLink, Filter, Globe2, Layers3, ListFilter, LoaderCircle,
   MapPin, Newspaper, Radio, RefreshCw, Search, ShieldCheck, SlidersHorizontal,
-  Sparkles, Target, Trash2, TrendingUp, X,
+  Target, Trash2, TrendingUp, X,
 } from "lucide-react";
-import type { BriefResponse, NewsArticle, NewsResponse } from "@shared/news";
+import type { NewsArticle, NewsResponse } from "@shared/news";
 import { NEWS_SOURCES } from "@shared/news";
 import ArticleDrawer from "@/components/ArticleDrawer";
-import BriefPanel from "@/components/BriefPanel";
 import StoryCard from "@/components/StoryCard";
 import {
-  loadInvestigations, loadSaved, removeSaved, requestBrief, saveArticle, saveInvestigation,
+  loadInvestigations, loadSaved, removeSaved, saveArticle, saveInvestigation,
   searchNews, type SavedItem, type SearchParams,
 } from "@/lib/newsApi";
 
@@ -56,10 +55,6 @@ export default function Home() {
   const [investigations, setInvestigations] = useState<SavedItem[]>(() => loadInvestigations());
   const [drawerArticle, setDrawerArticle] = useState<NewsArticle | null>(null);
   const [drawerCollectedAt, setDrawerCollectedAt] = useState<string | null>(null);
-  const [briefOutput, setBriefOutput] = useState<BriefResponse | null>(null);
-  const [briefError, setBriefError] = useState("");
-  const [briefBusy, setBriefBusy] = useState(false);
-  const [briefEvidence, setBriefEvidence] = useState<NewsArticle[]>([]);
   const [clock, setClock] = useState(new Date());
   const searchRef = useRef<HTMLInputElement>(null);
   const requestId = useRef(0);
@@ -112,10 +107,6 @@ export default function Home() {
   }, [articles]);
 
   const savedIds = useMemo(() => new Set(saved.map(item => item.id)), [saved]);
-  const analystEvidence = briefEvidence.length
-  ? briefEvidence
-  : articles.slice(0, 8);
-
   const currentParams = (): SearchParams => ({
     query,
     topic,
@@ -140,9 +131,6 @@ export default function Home() {
       if (sequence !== requestId.current) return;
 
       setData(result);
-      setBriefOutput(null);
-      setBriefEvidence([]);
-      setBriefError("");
     } catch (error) {
       if (sequence !== requestId.current) return;
       setLoadError(
@@ -291,31 +279,6 @@ export default function Home() {
     setInvestigations(loadInvestigations());
   }
 
- async function generateBrief(
-  kind: "brief" | "ask",
-  evidence = articles.slice(0, 8),
-  question = ""
-) {
-  if (!evidence.length) return;
-
-  setBriefBusy(true);
-  setBriefError("");
-  setBriefOutput(null);
-  setBriefEvidence(evidence);
-
-  try {
-    setBriefOutput(await requestBrief(kind, evidence, question));
-  } catch (error) {
-    setBriefError(
-      error instanceof Error
-        ? error.message
-        : "The AI analyst is temporarily unavailable."
-    );
-  } finally {
-    setBriefBusy(false);
-  }
-}
-
   const title =
     view === "search"
       ? "Bounded source search"
@@ -325,7 +288,7 @@ export default function Home() {
 
   const viewHint =
     view === "search"
-      ? "Search selected publishers by phrase. Use the analyst console for questions requiring synthesis."
+      ? "Search selected publishers by phrase and refine results with source filters."
       : view === "saved"
         ? "Your saved reporting and investigations are stored locally in this browser."
         : "Latest open-source reporting across your selected source set.";
@@ -1102,9 +1065,6 @@ export default function Home() {
                           saved={savedIds.has(article.id)}
                           onOpen={() => openArticle(article)}
                           onSave={() => toggleSave(article)}
-                          onBrief={() =>
-                            void generateBrief("brief", [article])
-                          }
                         />
                       </div>
                     ))}
@@ -1112,19 +1072,6 @@ export default function Home() {
                 </section>
 
                 <aside className="right-column">
-                  <BriefPanel
-                  articles={analystEvidence}
-                  busy={briefBusy}
-                  output={briefOutput}
-                  error={briefError}
-                  onBrief={() =>
-              void generateBrief("brief", articles.slice(0, 8))
-                }
-              onAsk={question =>
-          void generateBrief("ask", analystEvidence, question)
-            }
-            />
-
                   <section className="panel emerging-panel">
                     <div className="panel-heading">
                       <div>
