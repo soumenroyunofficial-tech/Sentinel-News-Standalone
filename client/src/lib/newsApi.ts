@@ -29,12 +29,20 @@ export async function searchNews(params: SearchParams): Promise<NewsResponse> {
   return readJson<NewsResponse>(await fetch(`/api/news?${query}`, { cache: "no-store", signal: AbortSignal.timeout(30_000) }));
 }
 
-export async function requestBrief(kind: "brief" | "ask", articles: NewsArticle[], question = ""): Promise<BriefResponse> {
+export async function requestBrief(
+  kind: "brief" | "ask",
+  articles: NewsArticle[],
+  question = ""
+): Promise<BriefResponse> {
   return readJson<BriefResponse>(await fetch("/api/brief", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ kind, articles: articles.slice(0, 8), question: question.slice(0, 700) }),
-    signal: AbortSignal.timeout(30_000),
+    body: JSON.stringify({
+      kind,
+      articles: articles.slice(0, 8),
+      question: question.slice(0, 700)
+    }),
+    signal: AbortSignal.timeout(100_000),
   }));
 }
 
