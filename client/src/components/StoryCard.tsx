@@ -1,4 +1,4 @@
-import { Bookmark, Clock3, ExternalLink, Layers3, Sparkles } from "lucide-react";
+import { Bookmark, Clock3, ExternalLink, Layers3 } from "lucide-react";
 import type { NewsArticle } from "@shared/news";
 
 function timeAgo(value: string | null) {
@@ -12,14 +12,13 @@ function timeAgo(value: string | null) {
 }
 
 export default function StoryCard({
-  article, clusterSize, saved, onOpen, onSave, onBrief,
+  article, clusterSize, saved, onOpen, onSave,
 }: {
   article: NewsArticle;
   clusterSize: number;
   saved: boolean;
   onOpen: () => void;
   onSave: () => void;
-  onBrief: () => void;
 }) {
   return (
     <article className="story-card">
@@ -38,7 +37,6 @@ export default function StoryCard({
           <button type="button" className="icon-action" title={saved ? "Saved" : "Save story"} onClick={onSave} aria-label={saved ? "Saved story" : "Save story"}>
             <Bookmark size={15} fill={saved ? "currentColor" : "none"} />
           </button>
-          <button type="button" className="icon-action" title="Generate AI brief" onClick={onBrief} aria-label="Generate AI brief"><Sparkles size={15} /></button>
         </div>
         {clusterSize > 1 && <span className="cluster-count"><Layers3 size={13} /> {clusterSize} reports</span>}
       </div>
