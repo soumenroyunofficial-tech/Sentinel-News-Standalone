@@ -15,6 +15,21 @@ export const NEWS_SOURCES = [
   { id: "euronews", name: "Euronews", domains: ["euronews.com"] },
   { id: "cbs", name: "CBS News", domains: ["cbsnews.com"] },
   { id: "nytimes", name: "The New York Times", domains: ["nytimes.com"] },
+  
+  { id: "indianexpress", name: "The Indian Express", domains: ["indianexpress.com"] },
+  { id: "hindustantimes", name: "Hindustan Times", domains: ["hindustantimes.com"] },
+  { id: "mint", name: "Mint", domains: ["livemint.com"] },
+  { id: "businessstandard", name: "Business Standard", domains: ["business-standard.com"] },
+  { id: "economictimes", name: "The Economic Times", domains: ["economictimes.indiatimes.com"] },
+  { id: "news18", name: "News18", domains: ["news18.com"] },
+  { id: "firstpost", name: "Firstpost", domains: ["firstpost.com"] },
+  { id: "theprint", name: "ThePrint", domains: ["theprint.in"] },
+  { id: "scroll", name: "Scroll.in", domains: ["scroll.in"] },
+  { id: "thewire", name: "The Wire", domains: ["thewire.in"] },
+  { id: "abplive", name: "ABP Live", domains: ["abplive.com"] },
+  { id: "deccanherald", name: "Deccan Herald", domains: ["deccanherald.com"] },
+  { id: "newindianexpress", name: "The New Indian Express", domains: ["newindianexpress.com"] },
+  { id: "telegraphindia", name: "The Telegraph", domains: ["telegraphindia.com"] },
 ] as const;
 
 export type NewsSourceId = (typeof NEWS_SOURCES)[number]["id"];
